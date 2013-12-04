@@ -51,7 +51,6 @@ public class DataHandler {
 			data[r] = new int[dataStrings[r].length]; // set up a new int[][] to match String[][]
 			for(int c = 0; c < data[r].length; c++){
 				if(!dataStrings[r][c].equals("0")){ // marks the end of the line
-					//System.out.println(r + ":" + c + ":" + data[r][c]);
 					data[r][c] = Integer.parseInt(dataStrings[r][c]); // set int[][] values as the String[][] values
 				}
 			}

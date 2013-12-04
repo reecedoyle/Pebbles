@@ -111,5 +111,21 @@ public class Grid {
 		}
 	}
 
+	/* CHECKING FUNCTIONS */
+
+	public boolean check(int r, int c){
+
+		/* check statements:
+		- current sq is blank
+		- 2 in a row/col
+		- sandwiched
+		- one colour has reached capacity in a row/col
+
+		try to do more than one of these at a time. So if sq to left is blank, don't check 2 in a row or row sandwich
+		 */
+
+		return false;
+	}
+
 
 }
