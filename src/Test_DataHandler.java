@@ -10,8 +10,7 @@ import java.io.FileNotFoundException;
 public class Test_DataHandler {
 
 	public static void main(String[] args) throws FileNotFoundException {
-		String fileName = "/Users/reecedoyle/Documents/COMP2008/coursework_2/Pebbles/test.txt";
-		DataHandler dataHandler = new DataHandler(fileName);
+		DataHandler dataHandler = new DataHandler();
 		int[][] data;
 		data = dataHandler.readFile();
 		for(int r = 0; r < 3; r++){

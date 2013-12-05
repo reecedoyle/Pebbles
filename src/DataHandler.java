@@ -11,18 +11,8 @@ import java.util.Scanner;
  */
 public class DataHandler {
 
-	private File file;
-
 	public DataHandler(){
 		// Empty constructor
-	}
-
-	public DataHandler(String fileName){
-		file = new File(fileName);
-	}
-
-	public void setFile(String fileName){
-		file = new File(fileName);
 	}
 
 	public int[][] readFile(){
@@ -30,18 +20,12 @@ public class DataHandler {
 		String dataIn;
 		String delims = "[ ]+";
 		int line = 0;
-		if(file.exists()){
 			Scanner stdin= new Scanner(System.in);
 			while(stdin.hasNext() && line < 3){
 				dataIn = stdin.nextLine();
 				fileData[line] = dataIn.split(delims); // Splits all numbers into separate Strings
 				line++;
 			}
-		}
-		else{
-			System.out.println("Cannot locate file. Exiting...");
-			System.exit(0);
-		}
 		return convertData(fileData);
 	}
 
