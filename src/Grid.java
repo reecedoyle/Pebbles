@@ -72,7 +72,7 @@ public class Grid {
 		return total;
 	}
 
-	private boolean checkEmpty(int index, int type){ // returns true if empty (0s)
+	private boolean checkEmpty(int index, int type){ // returns true if any empty (0s) in line
 		switch(type){
 			case ROW: // check row
 				for(int c = 0; c < size; c++){
@@ -80,7 +80,7 @@ public class Grid {
 						return true;
 					}
 				} break;
-			default: // check col
+			case COL: // check col
 				for(int r = 0; r < size; r++){
 					if(grid[r][index] == 0){
 						return true;
@@ -125,7 +125,7 @@ public class Grid {
 
 	/* CHECKING FUNCTIONS */
 
-	public void checkAll(){ // need to somehow sum the checks and iterate through grid in a logical way
+	public boolean checkAll(){ // need to somehow sum the checks and iterate through grid in a logical way
 		int r = 0, c = 0;
 		while(r < grid.length && c < grid[r].length){
 			if(check(r,c) > 0){ // if the square was changed
@@ -147,7 +147,113 @@ public class Grid {
 				}
 			}
 		}
+		if(checkComplete()){
+			return true;
+		}
+		return searchAll(); // search forward. If no solution, false is returned. Otherwise, true.
+
+		/* SEARCH FORWARD
+			- search for the first blank square
+			- change to white/black/random
+			- check affected
+			- if no change of affected, repeat the above
+			- if violates a condition, return -1 to signal change to other colour
+			- change to white, then try black, then you know to go back a step
+			- white -> black -> back
+			-
+
+
+		 */
 	}
+
+	private boolean searchAll(){
+		for(int r = 0; r < grid.length; r++){
+			for(int c = 0; c < grid[r].length; c++){
+				if(grid[r][c] == BLANK){
+					this.visualise();
+					System.out.println("r:"+r+" c:"+c+" white");
+					grid[r][c] = WHITE;
+					if(searchAll()){
+						return true;
+					}
+					this.visualise();
+					System.out.println("r:"+r+" c:"+c+" black");
+					grid[r][c] = BLACK;
+					if(searchAll()){
+						return true;
+					}
+					this.visualise();
+					System.out.println("r:"+r+" c:"+c+" blank");
+					if(checkComplete()){
+						return true; // grid is complete: success!
+					}
+					grid[r][c] = BLANK;
+					return false;
+				}
+
+			}
+		}
+		if(checkComplete()){
+			return true; // grid is complete: success!
+		}
+		return false; // no possible solution: UNSOLVABLE
+	}
+
+	/*
+
+	public boolean searchAll(){ // cycles through each square, searching possibilities of blanks
+		for(int r = 0; r < grid.length; r++){
+			for(int c = 0; c < grid[r].length; c++){
+				if(grid[r][c] == BLANK){
+					//this.visualise();
+					search(r,c);
+					if(checkComplete()){
+						return true; // grid is complete: success!
+					}
+				}
+
+			}
+		}
+		return false; // no possible solution: UNSOLVABLE
+	}
+
+	public boolean search(int r, int c){ // assigns a value to a square depending on success. returns false for a failure
+		grid[r][c] = WHITE;
+		if(searchAffected(r,c)){
+			return true;
+		}
+		else{
+			grid[r][c] = BLACK;
+			if(searchAffected(r,c)){
+				return true;
+			}
+			else{
+				grid[r][c] = BLANK;
+			}
+		}
+		return false;
+	}
+
+	// checks if the change results in unsolvable or not. if not, calls search.
+	public boolean searchAffected(int r, int c){
+		int result = checkAffected(r,c); // see if this changed anything - CHANGE THIS TO RETURN -1 WHEN FAILS CONDITION
+		if(result > 0){ // there was a change
+			if(checkComplete()){ // the change(s) completed the grid
+				return true;
+			}
+			else{ // grid not complete, continue down this branch for now
+				return searchAll();
+			}
+		}
+		else if(result < 0){
+			return false; // this branch failed
+		}
+		else{
+			return searchAll(); // this branch needs a next layer to search. If that layer fails, the branch fails
+		}
+	}
+
+	*/
 
 	public int check(int r, int c){ // returns number of changes made
 
@@ -231,7 +337,9 @@ public class Grid {
 							}
 						}
 						for(int i = 0; i < lineBlanks.length; i++){ // change all blanks to the missing colour
-							sum += checkAffected(index, i);
+							if(lineBlanks[i]){
+								sum += checkAffected(index, i);
+							}
 						}
 					}
 					else if(lineSum < 0){
@@ -242,7 +350,9 @@ public class Grid {
 							}
 						}
 						for(int i = 0; i < lineBlanks.length; i++){ // change all blanks to the missing colour
-							sum += checkAffected(index, i);
+							if(lineBlanks[i]){
+								sum += checkAffected(index, i);
+							}
 						}
 					}
 					// add extra statements to check the other conditions above like "unsolvable"
@@ -250,7 +360,7 @@ public class Grid {
 				else if(StrictMath.abs(lineSum) > lineZeroCount){
 					System.out.println("UNSOLVABLE");
 					System.exit(0);
-				}
+				} break;
 			case COL:
 				for(int i = 0; i < grid.length; i++){ // grid.length should be the same as grid[r].length
 					if(grid[i][index] == BLANK){ // counts the blanks and stores the index of them
@@ -262,7 +372,7 @@ public class Grid {
 				// |lineSum| == lineZeroCount = at least one colour complete
 				// |lineSum| > lineZeroCount = unsolvable
 				if(StrictMath.abs(lineSum) == lineZeroCount){ // at least one colour complete
-					if( lineSum > 0){
+					if(lineSum > 0){
 						for(int i = 0; i < lineBlanks.length; i++){ // change all blanks to the missing colour
 							if(lineBlanks[i]){
 								grid[i][index] = BLACK;
@@ -270,7 +380,9 @@ public class Grid {
 							}
 						}
 						for(int i = 0; i < lineBlanks.length; i++){ // change all blanks to the missing colour
-							sum += checkAffected(i, index);
+							if(lineBlanks[i]){
+								sum += checkAffected(i, index);
+							}
 						}
 					}
 					else if(lineSum < 0){
@@ -281,7 +393,9 @@ public class Grid {
 							}
 						}
 						for(int i = 0; i < lineBlanks.length; i++){ // change all blanks to the missing colour
-							sum += checkAffected(i, index);
+							if(lineBlanks[i]){
+								sum += checkAffected(i, index);
+							}
 						}
 					}
 					// add extra statements to check the other conditions above like "unsolvable"
@@ -289,7 +403,7 @@ public class Grid {
 				else if(StrictMath.abs(lineSum) > lineZeroCount){
 					System.out.println("UNSOLVABLE");
 					System.exit(0);
-				}
+				} break;
 		}
 		return sum;
 	}

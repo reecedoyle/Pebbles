@@ -15,7 +15,7 @@ public class Test_Check {
 		test.populate(data);
 		test.visualise();
 		//System.out.println("Changes: " + test.check(2,2));
-		test.checkAll();
+		System.out.println(test.checkAll());
 		test.visualise();
 	}
 
