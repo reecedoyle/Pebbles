@@ -120,12 +120,38 @@ public class Grid {
 			}
 			System.out.print("\n");
 		}
+		System.out.println("$$$$$$$$$$");
 	}
 
 	/* CHECKING FUNCTIONS */
 
+	public void checkAll(){ // need to somehow sum the checks and iterate through grid in a logical way
+		int r = 0, c = 0;
+		while(r < grid.length && c < grid[r].length){
+			if(check(r,c) > 0){ // if the square was changed
+				if(r < grid.length - 1){
+					if(c < grid[r].length - 1){
+						r++; c++;
+					}
+					else{
+						r++; c = 0;
+					}
+				}
+			}
+			else{
+				if(c < grid[r].length - 1){ // if not at the end of the line, move along the row
+					c++;
+				}
+				else{ // if at the end of the line, move to the start of the next line
+					r++; c = 0;
+				}
+			}
+		}
+	}
+
 	public int check(int r, int c){ // returns number of changes made
 
+		//this.visualise();
 		/* check statements:
 		- current sq is blank
 		- 2 in a row/col
@@ -150,26 +176,26 @@ public class Grid {
 				return 1 + checkAffected(r,c);
 			}
 
-			// pair of same-coloured pebbles to the left
+			// pair of same-coloured pebbles above
 			if((r > 1) && (grid[r-1][c] == grid[r-2][c]) && (grid[r-1][c] != 0) && (grid[r-2][c] != 0)){
 				grid[r][c] = grid[r-1][c] * -1;
 				return 1 + checkAffected(r,c);
 			}
 
-			// pair of same-coloured pebbles to the right
-			if((r < grid.length-1) && (grid[r+1][c] == grid[r+2][c]) && (grid[r+1][c] != 0) && (grid[r+2][c] != 0)){
+			// pair of same-coloured pebbles below
+			if((r < grid.length-2) && (grid[r+1][c] == grid[r+2][c]) && (grid[r+1][c] != 0) && (grid[r+2][c] != 0)){
 				grid[r][c] = grid[r+1][c] * -1;
 				return 1 + checkAffected(r,c);
 			}
 
-			// pair of same-coloured pebbles above
+			// pair of same-coloured pebbles to the left
 			if((c > 1) && (grid[r][c-1] == grid[r][c-2]) && (grid[r][c-1] != 0) && (grid[r][c-2] != 0)){
 				grid[r][c] = grid[r][c-1] * -1;
 				return 1 + checkAffected(r,c);
 			}
 
-			// pair of same-coloured pebbles below
-			if((c < grid[r].length) && (grid[r][c+1] == grid[r][c+2]) && (grid[r][c+1] != 0) && (grid[r][c+2] != 0)){
+			// pair of same-coloured pebbles to the right
+			if((c < grid[r].length-2) && (grid[r][c+1] == grid[r][c+2]) && (grid[r][c+1] != 0) && (grid[r][c+2] != 0)){
 				grid[r][c] = grid[r][c+1] * -1;
 				return 1 + checkAffected(r,c);
 			}
@@ -182,8 +208,7 @@ public class Grid {
 	public int checkLine(int line, int index){
 		int lineSum = sum(line, index);
 		int lineZeroCount = 0;
-		int[] lineBlanks = new int[grid[index].length]; // store position of blank squares in the row
-		int b = 0; // index for lineBlanks
+		boolean[] lineBlanks = new boolean[grid[index].length]; // store position of blank squares in the row
 		int sum = 0; // to count the changes made
 
 		switch (line){
@@ -191,71 +216,79 @@ public class Grid {
 				for(int i = 0; i < grid[index].length; i++){ // grid.length should be the same as grid[r].length
 					if(grid[index][i] == BLANK){ // counts the blanks and stores the index of them
 						lineZeroCount += 1;
-						lineBlanks[b] = i;
-						b++;
+						lineBlanks[i] = true;
 					}
 				}
 				// |lineSum| < lineZeroCount = normal/unfilled
 				// |lineSum| == lineZeroCount = at least one colour complete
 				// |lineSum| > lineZeroCount = unsolvable
 				if(StrictMath.abs(lineSum) == lineZeroCount){ // at least one colour complete
-					b = 0;
 					if(lineSum > 0){
-						while(lineBlanks[b] > 0){ // change all blanks to the missing colour
-							grid[index][b] = BLACK;
-							b++;
+						for(int i = 0; i < lineBlanks.length; i++){ // change all blanks to the missing colour
+							if(lineBlanks[i]){
+								grid[index][i] = BLACK;
+								sum++;
+							}
 						}
-						b = 0;
-						while(lineBlanks[b] > 0){ // THEN check the affected to avoid checking ones we're going to change anyway
-							sum += 1 + checkAffected(index,b);
+						for(int i = 0; i < lineBlanks.length; i++){ // change all blanks to the missing colour
+							sum += checkAffected(index, i);
 						}
 					}
 					else if(lineSum < 0){
-						while(lineBlanks[b] > 0){
-							grid[index][b] = WHITE;
-							b++;
+						for(int i = 0; i < lineBlanks.length; i++){ // change all blanks to the missing colour
+							if(lineBlanks[i]){
+								grid[index][i] = WHITE;
+								sum++;
+							}
 						}
-						b = 0;
-						while(lineBlanks[b] > 0){
-							sum += 1 + checkAffected(index,b);
+						for(int i = 0; i < lineBlanks.length; i++){ // change all blanks to the missing colour
+							sum += checkAffected(index, i);
 						}
 					}
 					// add extra statements to check the other conditions above like "unsolvable"
+				}
+				else if(StrictMath.abs(lineSum) > lineZeroCount){
+					System.out.println("UNSOLVABLE");
+					System.exit(0);
 				}
 			case COL:
-				for(int i = 0; i < grid.length; i++){ // counts the blanks and stores the index of them
-					if(grid[i][index] == BLANK){
+				for(int i = 0; i < grid.length; i++){ // grid.length should be the same as grid[r].length
+					if(grid[i][index] == BLANK){ // counts the blanks and stores the index of them
 						lineZeroCount += 1;
-						lineBlanks[b] = i;
-						b++;
+						lineBlanks[i] = true;
 					}
 				}
 				// |lineSum| < lineZeroCount = normal/unfilled
 				// |lineSum| == lineZeroCount = at least one colour complete
 				// |lineSum| > lineZeroCount = unsolvable
 				if(StrictMath.abs(lineSum) == lineZeroCount){ // at least one colour complete
-					b = 0;
 					if( lineSum > 0){
-						while(lineBlanks[b] > 0){ // change all blanks to the missing colour
-							grid[b][index] = BLACK;
-							b++;
+						for(int i = 0; i < lineBlanks.length; i++){ // change all blanks to the missing colour
+							if(lineBlanks[i]){
+								grid[i][index] = BLACK;
+								sum++;
+							}
 						}
-						b = 0;
-						while(lineBlanks[b] > 0){ // THEN check the affected to avoid checking ones we're going to change anyway
-							sum += 1 + checkAffected(b, index);
+						for(int i = 0; i < lineBlanks.length; i++){ // change all blanks to the missing colour
+							sum += checkAffected(i, index);
 						}
 					}
 					else if(lineSum < 0){
-						while(lineBlanks[b] > 0){
-							grid[b][index] = WHITE;
-							b++;
+						for(int i = 0; i < lineBlanks.length; i++){ // change all blanks to the missing colour
+							if(lineBlanks[i]){
+								grid[i][index] = WHITE;
+								sum++;
+							}
 						}
-						b = 0;
-						while(lineBlanks[b] > 0){
-							sum += 1 + checkAffected(b, index);
+						for(int i = 0; i < lineBlanks.length; i++){ // change all blanks to the missing colour
+							sum += checkAffected(i, index);
 						}
 					}
 					// add extra statements to check the other conditions above like "unsolvable"
+				}
+				else if(StrictMath.abs(lineSum) > lineZeroCount){
+					System.out.println("UNSOLVABLE");
+					System.exit(0);
 				}
 		}
 		return sum;
