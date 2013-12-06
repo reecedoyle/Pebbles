@@ -13,9 +13,16 @@ public class Test_Check {
 		data = dataHandler.readFile();
 		Grid test = new Grid(data[0][0]);
 		test.populate(data);
-		test.visualise();
-		System.out.println(test.solve());
-		test.visualise();
+		//test.visualise();
+		if(test.solve(1)){
+			test.visualise();
+			test.printWhites();
+		}
+		else{
+			test.visualise();
+			System.out.println("UNSOLVABLE");
+		}
+		//test.visualise();
 	}
 
 }

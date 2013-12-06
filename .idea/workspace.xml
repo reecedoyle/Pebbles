@@ -11,15 +11,15 @@
     <ignored path="Pebbles.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Main.java" changelist="4f2bec74-a93a-4c38-af16-2a8abd9afc10" time="1385983480122" ignored="false" />
-    <file path="/Grid.java" changelist="4f2bec74-a93a-4c38-af16-2a8abd9afc10" time="1386325075789" ignored="false" />
+    <file path="/Grid.java" changelist="4f2bec74-a93a-4c38-af16-2a8abd9afc10" time="1386342188895" ignored="false" />
     <file path="/a.java" changelist="4f2bec74-a93a-4c38-af16-2a8abd9afc10" time="1385988080399" ignored="false" />
     <file path="/sample.java" changelist="4f2bec74-a93a-4c38-af16-2a8abd9afc10" time="1385987978013" ignored="false" />
     <file path="/Test_Grid.java" changelist="4f2bec74-a93a-4c38-af16-2a8abd9afc10" time="1386001277983" ignored="false" />
     <file path="/DataHandler.java" changelist="4f2bec74-a93a-4c38-af16-2a8abd9afc10" time="1386069980650" ignored="false" />
     <file path="/Test_DataHandler.java" changelist="4f2bec74-a93a-4c38-af16-2a8abd9afc10" time="1386021675980" ignored="false" />
     <file path="/Test_GridWithFileInput.java" changelist="4f2bec74-a93a-4c38-af16-2a8abd9afc10" time="1386161155978" ignored="false" />
-    <file path="/Dummy.txt" changelist="4f2bec74-a93a-4c38-af16-2a8abd9afc10" time="1386319116135" ignored="false" />
-    <file path="/Test_Check.java" changelist="4f2bec74-a93a-4c38-af16-2a8abd9afc10" time="1386282823080" ignored="false" />
+    <file path="/Dummy.txt" changelist="4f2bec74-a93a-4c38-af16-2a8abd9afc10" time="1386341256205" ignored="false" />
+    <file path="/Test_Check.java" changelist="4f2bec74-a93a-4c38-af16-2a8abd9afc10" time="1386329039020" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,10 +80,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Grid.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Grid.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Grid.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="211" column="43" selection-start="5068" selection-end="5068" vertical-scroll-proportion="0.6380091">
+            <state line="217" column="39" selection-start="5171" selection-end="5171" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -98,10 +98,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Test_Check.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Test_Check.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Test_Check.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="25" selection-start="401" selection-end="401" vertical-scroll-proportion="0.0">
+            <state line="21" column="29" selection-start="501" selection-end="501" vertical-scroll-proportion="0.49841774">
               <folding />
             </state>
           </provider>
@@ -157,14 +157,15 @@
         <option value="$PROJECT_DIR$/src/DataHandler.java" />
         <option value="$PROJECT_DIR$/src/Test_DataHandler.java" />
         <option value="$PROJECT_DIR$/src/Test_GridWithFileInput.java" />
-        <option value="$PROJECT_DIR$/src/Test_Check.java" />
         <option value="$PROJECT_DIR$/src/Grid.java" />
+        <option value="$PROJECT_DIR$/src/Test_Check.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
+    <option name="y" value="22" />
     <option name="width" value="1280" />
-    <option name="height" value="800" />
+    <option name="height" value="778" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -192,7 +193,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -227,6 +227,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -242,11 +243,11 @@
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
-    <property name="FullScreen" value="true" />
+    <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RunManager" selected="Application.Test_DataHandler">
     <configuration default="false" name="Test_Grid" type="Application" factoryName="Application" temporary="true">
@@ -295,19 +296,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -333,6 +321,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -411,13 +412,12 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
+    <frame x="0" y="22" width="1280" height="778" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.0" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -431,6 +431,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32674772" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.0" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -578,23 +579,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Test_GridWithFileInput.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="25" selection-start="413" selection-end="413" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Test_Grid.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="25" selection-start="327" selection-end="327" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Test_Check.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="25" selection-start="401" selection-end="401" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -608,7 +595,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Grid.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="211" column="43" selection-start="5068" selection-end="5068" vertical-scroll-proportion="0.6380091">
+        <state line="217" column="39" selection-start="5171" selection-end="5171" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Test_GridWithFileInput.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="25" selection-start="413" selection-end="413" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Test_Check.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="29" selection-start="501" selection-end="501" vertical-scroll-proportion="0.49841774">
           <folding />
         </state>
       </provider>

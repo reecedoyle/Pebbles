@@ -60,6 +60,21 @@ public class Grid {
 		}
 	}
 
+	public void printWhites(){
+		String output = "";
+		for(int r = 0; r < size; r++){
+			for(int c = 0; c < size; c++){
+				if(grid[r][c] == WHITE){
+					output += Integer.toString((r*size) + c + 1);
+					if(r != size-1 || c != size-1){
+						output += " ";
+					}
+				}
+			}
+		}
+		System.out.println(output);
+	}
+
 
 	public boolean checkComplete(){ // Checks if the whole grid is completed by summing and checking for 0s
 		boolean total = true;
@@ -128,15 +143,14 @@ public class Grid {
 
 	/* CHECKING FUNCTIONS */
 
-	public boolean solve(){
+	public boolean solve(int colour){
 		this.visualise();
 		if(checkAll() && !violates()){
 			if(checkComplete()){
 				return true;
 			}
 			else{
-				System.out.println("Searching");
-				return searchAll(); // search forward. If no solution, false is returned. Otherwise, true.
+				return searchAll(colour); // search forward. If no solution, false is returned. Otherwise, true.
 			}
 		}
 		else{
@@ -187,31 +201,25 @@ public class Grid {
 		return true;
 	}
 
-	private boolean searchAll(){
+	private boolean searchAll(int colour){
 		int[][] prev = copyArray(grid); // store current values of squares affected by the square being changed in case of backtrack
 		for(int r = 0; r < grid.length; r++){
 			for(int c = 0; c < grid[r].length; c++){
 				if(grid[r][c] == BLANK){
-					//this.visualise();
-					//System.out.println("r:"+r+" c:"+c+" white");
-					grid[r][c] = WHITE;
+					grid[r][c] = colour;
 					if(!violates(r,c)){
-						if(solve()){
+						if(solve(colour * -1)){
 							return true;
 						}
 					}
 					grid = copyArray(prev);
-					//this.visualise();
-					//System.out.println("r:"+r+" c:"+c+" black");
-					grid[r][c] = BLACK;
+					grid[r][c] = colour * -1;
 					if(!violates(r,c)){
-						if(solve()){
+						if(solve(colour)){
 							return true;
 						}
 					}
 					grid = copyArray(prev);
-					//this.visualise();
-					//System.out.println("r:"+r+" c:"+c+" blank");
 					return false; // tried white and black but failed
 				}
 
@@ -421,7 +429,6 @@ public class Grid {
 		for(int r = 0; r < size; r++){
 			for(int c = 0; c < size; c++){
 				if(violates(r,c)){
-					System.out.println("violates");
 					return true;
 				}
 			}
