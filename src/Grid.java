@@ -120,10 +120,47 @@ public class Grid {
 			}
 			System.out.print("\n");
 		}
-		System.out.println("$$$$$$$$$$");
+		for(int i = 0; i < grid.length; i++){
+			System.out.print('$');
+		}
+		System.out.println("");
 	}
 
 	/* CHECKING FUNCTIONS */
+
+	public boolean solve(){
+		this.visualise();
+		if(checkAll() && !violates()){
+			if(checkComplete()){
+				return true;
+			}
+			else{
+				System.out.println("Searching");
+				return searchAll(); // search forward. If no solution, false is returned. Otherwise, true.
+			}
+		}
+		else{
+			return false;
+		}
+
+
+
+
+
+
+		/* SEARCH FORWARD
+			- search for the first blank square
+			- change to white/black/random
+			- check affected
+			- if no change of affected, repeat the above
+			- if violates a condition, return -1 to signal change to other colour
+			- change to white, then try black, then you know to go back a step
+			- white -> black -> back
+			-
+
+
+		 */
+	}
 
 	public boolean checkAll(){ // need to somehow sum the checks and iterate through grid in a logical way
 		int r = 0, c = 0;
@@ -147,48 +184,35 @@ public class Grid {
 				}
 			}
 		}
-		if(checkComplete()){
-			return true;
-		}
-		return searchAll(); // search forward. If no solution, false is returned. Otherwise, true.
-
-		/* SEARCH FORWARD
-			- search for the first blank square
-			- change to white/black/random
-			- check affected
-			- if no change of affected, repeat the above
-			- if violates a condition, return -1 to signal change to other colour
-			- change to white, then try black, then you know to go back a step
-			- white -> black -> back
-			-
-
-
-		 */
+		return true;
 	}
 
 	private boolean searchAll(){
+		int[][] prev = copyArray(grid); // store current values of squares affected by the square being changed in case of backtrack
 		for(int r = 0; r < grid.length; r++){
 			for(int c = 0; c < grid[r].length; c++){
 				if(grid[r][c] == BLANK){
-					this.visualise();
-					System.out.println("r:"+r+" c:"+c+" white");
+					//this.visualise();
+					//System.out.println("r:"+r+" c:"+c+" white");
 					grid[r][c] = WHITE;
-					if(searchAll()){
-						return true;
+					if(!violates(r,c)){
+						if(solve()){
+							return true;
+						}
 					}
-					this.visualise();
-					System.out.println("r:"+r+" c:"+c+" black");
+					grid = copyArray(prev);
+					//this.visualise();
+					//System.out.println("r:"+r+" c:"+c+" black");
 					grid[r][c] = BLACK;
-					if(searchAll()){
-						return true;
+					if(!violates(r,c)){
+						if(solve()){
+							return true;
+						}
 					}
-					this.visualise();
-					System.out.println("r:"+r+" c:"+c+" blank");
-					if(checkComplete()){
-						return true; // grid is complete: success!
-					}
-					grid[r][c] = BLANK;
-					return false;
+					grid = copyArray(prev);
+					//this.visualise();
+					//System.out.println("r:"+r+" c:"+c+" blank");
+					return false; // tried white and black but failed
 				}
 
 			}
@@ -196,64 +220,10 @@ public class Grid {
 		if(checkComplete()){
 			return true; // grid is complete: success!
 		}
-		return false; // no possible solution: UNSOLVABLE
-	}
-
-	/*
-
-	public boolean searchAll(){ // cycles through each square, searching possibilities of blanks
-		for(int r = 0; r < grid.length; r++){
-			for(int c = 0; c < grid[r].length; c++){
-				if(grid[r][c] == BLANK){
-					//this.visualise();
-					search(r,c);
-					if(checkComplete()){
-						return true; // grid is complete: success!
-					}
-				}
-
-			}
-		}
-		return false; // no possible solution: UNSOLVABLE
-	}
-
-	public boolean search(int r, int c){ // assigns a value to a square depending on success. returns false for a failure
-		grid[r][c] = WHITE;
-		if(searchAffected(r,c)){
-			return true;
-		}
 		else{
-			grid[r][c] = BLACK;
-			if(searchAffected(r,c)){
-				return true;
-			}
-			else{
-				grid[r][c] = BLANK;
-			}
-		}
-		return false;
-	}
-
-	// checks if the change results in unsolvable or not. if not, calls search.
-	public boolean searchAffected(int r, int c){
-		int result = checkAffected(r,c); // see if this changed anything - CHANGE THIS TO RETURN -1 WHEN FAILS CONDITION
-		if(result > 0){ // there was a change
-			if(checkComplete()){ // the change(s) completed the grid
-				return true;
-			}
-			else{ // grid not complete, continue down this branch for now
-				return searchAll();
-			}
-		}
-		else if(result < 0){
-			return false; // this branch failed
-		}
-		else{
-			return searchAll(); // this branch needs a next layer to search. If that layer fails, the branch fails
+			return false; // no possible solution: UNSOLVABLE
 		}
 	}
-
-	*/
 
 	public int check(int r, int c){ // returns number of changes made
 
@@ -273,40 +243,70 @@ public class Grid {
 			// sandwiched vertically: not top or bottom row, up and down are the same non-zero
 			if((r > 0 && r < (grid.length-1)) && (grid[r-1][c] == grid[r+1][c]) && (grid[r-1][c] != BLANK) && (grid[r+1][c] != BLANK)){
 				grid[r][c] = grid[r-1][c] * -1;
-				return 1 + checkAffected(r,c);
+				if(violates(r,c)){
+					grid[r][c] = BLANK;
+				}
+				else{
+					return 1 + checkAffected(r,c);
+				}
 			}
 
 			// sandwiched horizontally: not left or right col, left and right are the same non-zero
 			if((c > 0 && c < (grid[r].length-1)) && (grid[r][c-1] == grid[r][c+1]) && (grid[r][c-1] != BLANK) && (grid[r][c+1] != BLANK)){
 				grid[r][c] = grid[r][c-1] * -1;
-				return 1 + checkAffected(r,c);
+				if(violates(r,c)){
+					grid[r][c] = BLANK;
+				}
+				else{
+					return 1 + checkAffected(r,c);
+				}
 			}
 
 			// pair of same-coloured pebbles above
 			if((r > 1) && (grid[r-1][c] == grid[r-2][c]) && (grid[r-1][c] != 0) && (grid[r-2][c] != 0)){
 				grid[r][c] = grid[r-1][c] * -1;
-				return 1 + checkAffected(r,c);
+				if(violates(r,c)){
+					grid[r][c] = BLANK;
+				}
+				else{
+					return 1 + checkAffected(r,c);
+				}
 			}
 
 			// pair of same-coloured pebbles below
 			if((r < grid.length-2) && (grid[r+1][c] == grid[r+2][c]) && (grid[r+1][c] != 0) && (grid[r+2][c] != 0)){
 				grid[r][c] = grid[r+1][c] * -1;
-				return 1 + checkAffected(r,c);
+				if(violates(r,c)){
+					grid[r][c] = BLANK;
+				}
+				else{
+					return 1 + checkAffected(r,c);
+				}
 			}
 
 			// pair of same-coloured pebbles to the left
 			if((c > 1) && (grid[r][c-1] == grid[r][c-2]) && (grid[r][c-1] != 0) && (grid[r][c-2] != 0)){
 				grid[r][c] = grid[r][c-1] * -1;
-				return 1 + checkAffected(r,c);
+				if(violates(r,c)){
+					grid[r][c] = BLANK;
+				}
+				else{
+					return 1 + checkAffected(r,c);
+				}
 			}
 
 			// pair of same-coloured pebbles to the right
 			if((c < grid[r].length-2) && (grid[r][c+1] == grid[r][c+2]) && (grid[r][c+1] != 0) && (grid[r][c+2] != 0)){
 				grid[r][c] = grid[r][c+1] * -1;
-				return 1 + checkAffected(r,c);
+				if(violates(r,c)){
+					grid[r][c] = BLANK;
+				}
+				else{
+					return 1 + checkAffected(r,c);
+				}
 			}
 			// row or column are already at maximum capacity for a colour
-			return checkLine(ROW, r) + checkLine(COL, r);
+			return checkLine(ROW, r) + checkLine(COL, c);
 		}
 		return 0;
 	}
@@ -356,10 +356,6 @@ public class Grid {
 						}
 					}
 					// add extra statements to check the other conditions above like "unsolvable"
-				}
-				else if(StrictMath.abs(lineSum) > lineZeroCount){
-					System.out.println("UNSOLVABLE");
-					System.exit(0);
 				} break;
 			case COL:
 				for(int i = 0; i < grid.length; i++){ // grid.length should be the same as grid[r].length
@@ -399,10 +395,6 @@ public class Grid {
 						}
 					}
 					// add extra statements to check the other conditions above like "unsolvable"
-				}
-				else if(StrictMath.abs(lineSum) > lineZeroCount){
-					System.out.println("UNSOLVABLE");
-					System.exit(0);
 				} break;
 		}
 		return sum;
@@ -423,6 +415,74 @@ public class Grid {
 			}
 		}
 		return sum;
+	}
+
+	private boolean violates(){
+		for(int r = 0; r < size; r++){
+			for(int c = 0; c < size; c++){
+				if(violates(r,c)){
+					System.out.println("violates");
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private boolean violates(int r, int c){ // returns true if violates, false if legal
+		// sandwiched vertically
+		if(grid[r][c] == BLANK){
+			return false;
+		}
+		if((r > 0 && r < (grid.length-1)) && (grid[r-1][c] == grid[r+1][c]) && (grid[r-1][c] == grid[r][c])){
+			return true;
+		}
+
+		// sandwiched horizontally
+		if((c > 0 && c < (grid[r].length-1)) && (grid[r][c-1] == grid[r][c+1]) && (grid[r][c-1] == grid[r][c])){
+			return true;
+		}
+
+		// pair of same-coloured pebbles above
+		if((r > 1) && (grid[r-1][c] == grid[r-2][c]) && (grid[r-1][c] == grid[r][c])){
+			return true;
+		}
+
+		// pair of same-coloured pebbles below
+		if((r < grid.length-2) && (grid[r+1][c] == grid[r+2][c]) && (grid[r+1][c] == grid[r][c])){
+			return true;
+		}
+
+		// pair of same-coloured pebbles to the left
+		if((c > 1) && (grid[r][c-1] == grid[r][c-2]) && (grid[r][c-1] == grid[r][c])){
+			return true;
+		}
+
+		// pair of same-coloured pebbles to the right
+		if((c < grid[r].length-2) && (grid[r][c+1] == grid[r][c+2]) && (grid[r][c+1] == grid[r][c])){
+			return true;
+		}
+
+		// check if sum of one colour in row is greater than half of size
+		if(Math.abs(sum(ROW, r)) > grid.length/2){
+			return true;
+		}
+
+		// check if sum of one colour in col is greater than half of size
+		if(Math.abs(sum(COL, c)) > grid.length/2){
+			return true;
+		}
+		return false;
+	}
+
+	private int[][] copyArray(int[][] arrayIn){
+		int[][] arrayOut = new int[arrayIn.length][arrayIn[0].length];
+		for(int r = 0; r < arrayIn.length; r ++){
+			for(int c = 0; c < arrayIn[r].length; c++){
+				arrayOut[r][c] = arrayIn[r][c];
+			}
+		}
+		return arrayOut;
 	}
 
 }

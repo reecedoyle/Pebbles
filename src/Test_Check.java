@@ -14,8 +14,7 @@ public class Test_Check {
 		Grid test = new Grid(data[0][0]);
 		test.populate(data);
 		test.visualise();
-		//System.out.println("Changes: " + test.check(2,2));
-		System.out.println(test.checkAll());
+		System.out.println(test.solve());
 		test.visualise();
 	}
 
