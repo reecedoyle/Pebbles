@@ -119,7 +119,7 @@ public class Grid {
 		}
 		return sum;
 	}
-
+/*
 	public void visualise(){
 		for(int r = 0; r < size; r++){
 			for(int c = 0; c < size; c++){
@@ -140,11 +140,11 @@ public class Grid {
 		}
 		System.out.println("");
 	}
-
+*/
 	/* CHECKING FUNCTIONS */
 
 	public boolean solve(int colour){
-		this.visualise();
+		//this.visualise();
 		if(checkAll() && !violates()){
 			if(checkComplete()){
 				return true;
@@ -156,24 +156,6 @@ public class Grid {
 		else{
 			return false;
 		}
-
-
-
-
-
-
-		/* SEARCH FORWARD
-			- search for the first blank square
-			- change to white/black/random
-			- check affected
-			- if no change of affected, repeat the above
-			- if violates a condition, return -1 to signal change to other colour
-			- change to white, then try black, then you know to go back a step
-			- white -> black -> back
-			-
-
-
-		 */
 	}
 
 	public boolean checkAll(){ // need to somehow sum the checks and iterate through grid in a logical way
@@ -234,17 +216,6 @@ public class Grid {
 	}
 
 	public int check(int r, int c){ // returns number of changes made
-
-		//this.visualise();
-		/* check statements:
-		- current sq is blank
-		- 2 in a row/col
-		- sandwiched
-		- one colour has reached capacity in a row/col
-
-		try to do more than one of these at a time. So if sq to left is blank, don't check 2 in a row or row sandwich
-		Also, when checking affected, don't recheck the one we went from
-		 */
 
 		if(grid[r][c] == BLANK){ // if the square isn't already filled, inspect the conditions
 
