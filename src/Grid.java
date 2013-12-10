@@ -44,10 +44,7 @@ public class Grid {
 		for(int r = 1; r < 3; r++){
 			for(int c = 0; c < inputArray[r].length; c ++){
 				temp = inputArray[r][c] - 1;
-				if(temp < 0){ // No more values to allocate (possibly sent array of 0s to indicate no input)
-					// ignore it as it's not a real value
-				}
-				else {
+				if(temp >= 0){
 					position = Integer.toString(temp, size); // convert to the base of the size e.g. 9 base 4 -> "21"
 					while(position.length()<2){
 						position = "0" + position;
@@ -141,21 +138,10 @@ public class Grid {
 		System.out.println("");
 	}
 */
-	/* CHECKING FUNCTIONS */
+	/* DPLL FUNCTIONS */
 
 	public boolean solve(int colour){
-		//this.visualise();
-		if(checkAll() && !violates()){
-			if(checkComplete()){
-				return true;
-			}
-			else{
-				return searchAll(colour); // search forward. If no solution, false is returned. Otherwise, true.
-			}
-		}
-		else{
-			return false;
-		}
+		return checkAll() && !violates() && (checkComplete() || searchAll(colour));
 	}
 
 	public boolean checkAll(){ // need to somehow sum the checks and iterate through grid in a logical way
@@ -207,12 +193,7 @@ public class Grid {
 
 			}
 		}
-		if(checkComplete()){
-			return true; // grid is complete: success!
-		}
-		else{
-			return false; // no possible solution: UNSOLVABLE
-		}
+		return checkComplete();
 	}
 
 	public int check(int r, int c){ // returns number of changes made
@@ -447,18 +428,13 @@ public class Grid {
 		}
 
 		// check if sum of one colour in col is greater than half of size
-		if(Math.abs(sum(COL, c)) > grid.length/2){
-			return true;
-		}
-		return false;
+		return Math.abs(sum(COL, c)) > grid.length / 2;
 	}
 
 	private int[][] copyArray(int[][] arrayIn){
 		int[][] arrayOut = new int[arrayIn.length][arrayIn[0].length];
 		for(int r = 0; r < arrayIn.length; r ++){
-			for(int c = 0; c < arrayIn[r].length; c++){
-				arrayOut[r][c] = arrayIn[r][c];
-			}
+			System.arraycopy(arrayIn[r], 0, arrayOut[r], 0, arrayIn[r].length);
 		}
 		return arrayOut;
 	}
